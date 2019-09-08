@@ -261,17 +261,18 @@ ${\bf h}_j$に対するアテンションの重み$\alpha_j$は式(8)のよう�
 
 Word Embedding based Correlation (WEC) Model\cite{shen2017word}はShenらがQuestion/Answer Matchingというタスクにおいて提案したモデルである．このモデルでは質問に対する答えを，ベクトル表現された質問文から，ベクトル表現された答えの文に変換する翻訳行列を学習している．本論文でもこの手法を採用し，あるドメインSで得られたレビューとあるドメインSで得られたレビューへの変換行列を学習する．すなわち翻訳行列を$M$とした時，$ M{\bf c}^S$と$ {\bf c}^T$の誤差が少なくなるように$M$のパラメータを学習する．
  
-本論文におけるマルチタスク学習では，${\bf c}^S$と$ {\bf c}^T$を獲得する際のエンコーダーのパラメータを共有し，その後の翻訳タスクとスコアの予測タスクはそれぞれタスク個別に学習する．
+本論文におけるマルチタスク学習では，${\bf c}^S$と$ {\bf c}^T$を獲得する際のエンコーダーのパラメータを共有し，その後翻訳タスクとスコアの予測タスクでそれぞれ個別に学習する．
 翻訳タスク，スコアの予測タスク共に損失関数として，平均二乗誤差を用いる．翻訳タスクにおける変換した値を$\hat{\bf c}_i$，損失関数を$L_{\rm translation} $，スコアの予測タスクにおける予測した値を$\hat{s}_i$，損失関数を$L_{\rm score}$とおき，損失関数をそれぞれ以下のように定義する．
 \begin{eqnarray}
- L_{\rm translation} &=& \frac{1}{n} \sum_{i=1}^n({\bf c}_i^T - \hat{\bf c}_i) \\
- L_{\rm score} &=& \frac{1}{n} \sum_{i=1}^n({s}_i^T - \hat{s}_i)
+ L_{\rm translation} &=& \frac{1}{N} \sum_{i=1}^N({\bf c}_i^T - \hat{\bf c}_i) \\
+ L_{\rm score} &=& \frac{1}{N} \sum_{i=1}^N({s}_i^T - \hat{s}_i)
 \end{eqnarray}
-この時マルチタスク学習における目的関数$L$を以下のように定義する．
+ただし$N$は商品数とする．この時マルチタスク学習における目的関数$L$を以下のように定義する．
 \begin{equation}
-  L = L_{\rm translation} +  \beta L_{\rm score}
+  L = \beta L_{\rm score} +  (1-\beta) L_{\rm translation}
 \end{equation}
-ここで$\beta$はハイパーパラメタである．
+ここで$\beta$はハイパーパラメタであり，本論文における目的であるスコアの予測に対して，どの程度翻訳を考慮するかを決定する．
+
 \section{実験}\label{experiment}
 % 実験内容の具体化
 % 実験の設定を詳細に記述()パラメータを含める
