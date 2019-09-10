@@ -42,7 +42,7 @@
 \section{はじめに}
 % 1. 研究内容の重要性に直結するような社会的背景
 % 越境ECが盛り上がってる && レビューを元に購買意思決定をすることが多くなっている => 越境ECにおけるレビューの予測が重要だが，なかなか難しい
-近年，インターネットやスマートフォンの普及に伴い，Amazonや天猫商城などの越境ECと呼ばれる「国境を超えて行われるECサイトの取引」の市場規模が年々拡大している．経済産業省の報告によると，世界の越境ECの市場規模は毎年，対前年$20\%$以上で成長しており，2020年には市場規模が109兆円になると見込まれている[1]．越境ECでは商圏が限定されず，現地に出店する場合と比べても安く，早く開業することができるため，大企業，中小企ともに参入が続いている．このようにメリットも多い越境ECだが，デメリットもある．自国(以下では$S$国と呼ぶ)で売れているものが対象となる外国(以下では$T$国と呼ぶ)でも同様に売れるとは限らず，$T$国に在庫を確保したにも関わらず，売れずに損をするというリスクも存在している．さらに，近年はレビューを参考に商品購買の意思決定が行われることが多くなり，どのようなレビューを獲得するかの重要度が増してきている．しかし，$S$国で売っている商品のレビュー文とそのスコアはわかるが，その商品を$T$国で新たに売る際には，当然その商品のレビューが$T$国にはまだ存在しないため，その国でどのようなレビューを獲得するかがわからないという問題がある．図2で示されるように，実際に44\%もの商品がアメリカでの評価よりもイギリスでの評価は低いものとなっている．事前にどのように$t$国でのレビューやスコアが$S$国のものから変化するのかを予測することが，越境ECにおける出品では重要となる．
+近年，インターネットやスマートフォンの普及に伴い，Amazonや天猫商城などの越境ECと呼ばれる「国境を超えて行われるECサイトの取引」の市場規模が年々拡大している．経済産業省の報告によると，世界の越境ECの市場規模は毎年，対前年$20\%$以上で成長しており，2020年には市場規模が109兆円になると見込まれている\footnote{\url{https://www.meti.go.jp/policy/it_policy/statistics/outlook/H30_hokokusho_new.pdf}}．越境ECでは商圏が限定されず，現地に出店する場合と比べても安く，早く開業することができるため，大企業，中小企ともに参入が続いている．このようにメリットも多い越境ECだが，デメリットもある．自国(以下では$S$国と呼ぶ)で売れているものが対象となる外国(以下では$T$国と呼ぶ\footnote{ここでは$S$と$T$は国として表現しているが，厳密には異なるユーザグループをもつドメインのことである})でも同様に売れるとは限らず，$T$国に在庫を確保したにも関わらず，売れずに損をするというリスクも存在している．さらに，近年はレビューを参考に商品購買の意思決定が行われることが多くなり，どのようなレビューを獲得するかの重要度が増してきている．しかし，$S$国で売っている商品のレビュー文とそのスコアはわかるが，その商品を$T$国で新たに売る際には，当然その商品のレビューが$T$国にはまだ存在しないため，その国でどのようなレビューを獲得するかがわからないという問題がある．図2で示されるように，実際に44\%もの商品がアメリカでの評価よりもイギリスでの評価は低いものとなっている．事前にどのように$t$国でのレビューやスコアが$S$国のものから変化するのかを予測することが，越境ECにおける出品では重要となる．
 
 % 2. 現状とその問題 どのような研究が行われているか，研究の引用，既存の手法の問題点
 % 現状そのような研究は行われていない　既存手法はすでに存在するレビューを感情分析したり，スコアを予測したり
@@ -90,26 +90,6 @@ $S$国でも$T$国でもすでに販売されている商品のレビューの�
 また，アメリカとイギリス両国において，レビューを10以上獲得した商品のスコアの差の分布を示したものが，図\ref{score_diff}である．
 % スコアの差が0.4以上存在するものは全体の16.4\%であり，
 平均で，0.24のスコアの差が存在することがわかる．，$T$国で販売した際に，$S$国よりも良い評価を得られるかどうかを予測する2値分類問題においては，SVMが54\%の精度，Attentionモデルが56\%の精度であったのに対し，Multitask Learningを用いた手法では58\%の精度であった．また，レビューのスコアがどの程度変化するかを予測する回帰問題においては，平均二乗誤差がSVCは0.26であったのに対し，Multitask Learningを用いた手法は0.1であった．本論文の問題設定において，Multitask Learningを用いることは，一定効果的であったと言える．
-
-\begin{table}[tb]
-\centering
-\caption{英米共通して販売されている商品データ}
-\begin{tabular}{lrrr}
-\hline
-\multicolumn{1}{c}{} & \multicolumn{1}{c}{レビュー数} & \multicolumn{1}{c}{商品数} \\ \hline
-アメリカ         & 4,063,476                          & 29,426             \\
-イギリス         & 1,169,246                         & 29,426                 \\ \hline
-\end{tabular}
-\label{num_of_data}
-\end{table}
-
-% TODO: - epsで出力
-\begin{figure}[tb]
-	\centering
-	\includegraphics[width=7cm]{images/score_diff.png} 
-	\caption{英米で販売した時の商品に対するスコアの差}
-	\label{score_diff}
-\end{figure}
 
 % 6. 本論文の貢献
 % - 新しいタスクの提案
@@ -185,9 +165,12 @@ $R^S_i$を入力として，$s^T_i$と$R^T_i$を正解として学習を行い�
 \end{figure}
 本節では，マルチタスク学習を用いることで，まだ対象商品のレビューが存在しないドメインにおけるレビューのスコアを予測するモデルを示す．
 
-図\ref{encoder}, \ref{multitaskLearning}に示す通り，本論文で提案するモデルは主に下記の3つのステップから構成される．
+図\ref{encoder}, \ref{multitaskLearning}に示す通り，本論文で提案するモデルは主に下記の3つのステップから構成される:
+
 (1)$R^S_i$と$R^T_i$を入力として，単語のベクトル表現を得る．
+
 (2)$R^S_i$と$R^T_i$の文のベクトル表現を得る．
+
 (3)マルチタスク学習を適用して，$R^S_i$から$R^T_i$への翻訳のタスクと，$R^S_i$から$s_i^T$を予測するタスクを同時に学習する．
 
 このモデルにおいて最も重要なアイデアは，マルチタスク学習において，$R^S_i$から$R^T_i$を予測するモデルを学習することによって，$R_i^T$を予測する上で重要な特徴量をモデルが学習し，より$s_i^T$を正確に予測できるような$R_i^S$のベクトル表現を得ることができるようになるという点である．
@@ -222,7 +205,7 @@ LSTMの構成要素は，入力，忘却，出力の3種類のゲートとメモ
 {\bf f}_t&=&\sigma ({\bf W}_{\bf f} {\bf e}_t + {\bf U}_{\bf f}{\bf h}_{t-1} + {\bf V}_{\bf f}{\bf c}_{t-1}) \\
 {\bf o}_t&=& \sigma ({\bf W}_{\bf o} {\bf e}_t + {\bf U}_{\bf o}{\bf h}_{t-1} + {\bf V}_{\bf o}{\bf c}_{t}) \\
 \tilde{{\bf c}}_t &=& {\rm tanh}({\bf W}_{\bf c} {\bf e}_t + {\bf U}_{\bf c}{\bf h}_{t-1}) \\
-{\bf c}_t &=& {\bf f}_t^i \odot {\bf c}_{t-1} + {\bf i}_t \odot \tilde{{\bf c}}_t \\
+{\bf c}_t &=& {\bf f}_t \odot {\bf c}_{t-1} + {\bf i}_t \odot \tilde{{\bf c}}_t \\
 {\bf h}_t &=& {\bf o}_t \odot {\rm tanh}({\bf c}_t) 
 \end{eqnarray}
 ここで，$\sigma$はシグモイド関数，${\rm tanh}$ははいパボリックタンジェント関数$\odot$は要素ごとの積，${\bf W}_{\bf i}, {\bf W}_{\bf f}, {\bf W}_{\bf o}, {\bf W}_{\bf c} \in \mathbb{R}^{d_h\times d_e} $，${\bf U}_{\bf i}, {\bf U}_{\bf f}, {\bf U}_{\bf o}, {\bf U}_{\bf c} \in \mathbb{R}^{d_h\times d_h} $，及び${\bf V}_{\bf i}, {\bf V}_{\bf f}, {\bf V}_{\bf o} \in \mathbb{R}^{d_h\times d_c} $ はモデルのパラメータである．$d_e, d_h, d_c$は単語ベクトルの次元，隠れ状態の次元，ならびに，メモリセルの次元である．
@@ -280,15 +263,50 @@ Word Embedding based Correlation (WEC) Model\cite{shen2017word}はShenらがQues
 % グラフの説明=> グラフの読み取り方，読み取れる事柄，確かな結論，そこから推測できること
 % 事実と推測は分けて書く
 \subsection{データセット}\label{dataset}
-ここでデータセットについて詳しく説明してもいいかもしれない
-どんなカテゴリがあって〜とか
-\subsection{ハイパーパラメタと学習}\label{ex_perp}
-したみたいなこと書くかな
-The network is trained with backpropagation and the gradient-based optimization is performed using the Adagrad update rule [Duchi et al., 2011]. In all of our experiments, the word embeddings are trained using word2vec [Mikolov et al., 2013] on the Wikipedia corpus (1B words). The vo- cabulary size is about 500,000. The word embeddings are fine-tuned during training to improve the performance [Col- lobert et al., 2011]. The other parameters are initialized by randomly sampling from uniform distribution in [-0.1, 0.1]. The hyperparameters which achieve the best performance on the development set will be chosen for the final evaluation. For datasets without development set, we use 10-fold cross- validation (CV) instead.
-The final hyper-parameters are as follows. The embedding size for specific task and shared layer are 64. For Model-I, there are two embeddings for each word, and both their sizes are 64. The hidden layer size of LSTM is 50. The initial learning rate is 0.1. The regularization weight of the parame- ters is 10�5.
-\subsection{評価分類}\label{ex_create}
+実験ではAmazonが公開しているデータ\footnote{https://s3.amazonaws.com/amazon-reviews-pds/readme.html}を用いた．このデータには1995年から2015年までの，5ヵ国（アメリカ，イギリス，日本，フランス，ドイツ）におけるの商品に対するレビュー文，スコア，カテゴリ，商品IDなど15のメタデータが含まれている．本論文では，二つの国で共通に販売されている商品のレビューデータを用いるため，共通のデータが多かったアメリカとイギリスのデータを利用している．また，ある商品に対するアメリカにおけるレビュー文とイギリスにおけるレビュー文を共に学習に使うため，共に10以上レビュー文が存在する商品のみを扱う．表\ref{num_of_data}に示す通り，アメリカとイギリスに共通に存在する商品数は$29,426$件，それぞれアメリカでは$4,063,476$件，イギリスでは$1,169,246$件であった．
+また，図に示す通り，イギリスのレビューのスコアの分布はアメリカのレビューのスコアの分布より多少$5.0$の割合が大きかったが，平均はアメリカが$4.4$，イギリスが$4.32$であり，標準偏差はそれぞれ$0.73$と$0.72$であり，大きく差はなかったため，レビューのスコアに前処理は加えていない．
+図\ref{score_diff}はアメリカとイギリスのある商品に対するレビュースコアの差の絶対値を表したものである．スコアの差が0.4以上存在するものは全体の16.4\%であった．
+% 予備実験のことを書いても良いかも？
 
-\subsection{評価予測}\label{ex_create}
+\begin{table}[tb]
+\centering
+\caption{英米共通して販売されている商品データ}
+\begin{tabular}{lrrr}
+\hline
+\multicolumn{1}{c}{} & \multicolumn{1}{c}{レビュー数} & \multicolumn{1}{c}{商品数} \\ \hline
+アメリカ         & 4,063,476                          & 29,426             \\
+イギリス         & 1,169,246                         & 29,426                 \\ \hline
+\end{tabular}
+\label{num_of_data}
+\end{table}
+
+% TODO: - epsで出力
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=7cm]{images/score_diff.png} 
+	\caption{英米で販売した時の商品に対するスコアの差}
+	\label{score_diff}
+\end{figure}
+
+\subsection{ハイパーパラメタと学習}\label{ex_perp}
+本論文では，ニュラールネットワークは誤差逆転法で学習し，勾配法はAdam\cite{kingma2014adam}を用いた．また，単語埋め込みには，Gloveアルゴリズムを用いて英語版Wikipediaで学習済みの単語ベクトルを用いた．語彙数は$40,000$であり，$300$次元のベクトルで表現されている．
+また，ハイパーパラメタはマルチタスク学習において共有しているLSTMの隠れ層には$100$，学習率には$0.001$を用いた．
+
+\subsection{レビューのスコア分類}\label{ex_create}
+一つ目の実験として，ある商品におけるレビューのスコアが，イギリスにおいてアメリカよりも良くなるかか，悪くなるかの2値分類をするの実験を行った．
+
+ベースライン手法としては，SVMと通常のマルチタスク学習を用いない双方向長短期記憶(BLSTM)とセルフアテンションを用いたモデルの二つを採用した．ベースライン手法では，$R^S_i$を入力とし，$s^T_i - s^S_i \geq 0$ならば1を， $s^T_i - s^S_i < 0$ならば0を出力として学習を行った．用いたデータは提案手法同様，アメリカとイギリス共に商品のレビュー文が10以上存在するものを用いた．一方で，提案手法ではマルチタスク学習を行うため，$R^S_i$だけでなく$R^T_i$も入力し，$s^T_i - s^S_i \geq 0$ならば1を， $s^T_i - s^S_i < 0$ならば0を出力として学習を行った．
+
+実験の結果は
+
+
+\subsection{レビューのスコアの差の予測}\label{ex_create}
+二つ目の実験として，イギリスとアメリカのある商品におけるレビューのスコアの差を予測する実験を行った．
+
+ベースライン手法としては，サポートベクター回帰(SVR)と，双方向長短期記憶(BLSTM)とセルフアテンションを用いたモデルの二つを採用した．
+ベースライン手法では，$R^S_i$を入力とし，$s^T_i - s^S_i$を出力として学習を行った．用いたデータは提案手法同様，アメリカとイギリス共に商品のレビュー文が10以上存在するものを用いた．
+一方で，提案手法ではマルチタスク学習を行うため，$R^S_i$だけでなく$R^T_i$も入力し，$s^T_i - s^S_i$を出力として学習を行った．
+
 
 \section{まとめ}\label{matome}
 
